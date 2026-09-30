@@ -1,0 +1,62 @@
+openapi: 3.0.3
+info:
+  title: Payment Mock Service API
+  version: 1.0.0
+  description: API for managing the mock payment configuration (e.g. force failure).
+paths:
+  /api/payment/config:
+    get:
+      summary: Get payment configuration
+      responses:
+        '200':
+          description: Configuration details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentConfig'
+    put:
+      summary: Update payment configuration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentConfig'
+      responses:
+        '200':
+          description: Configuration updated
+  /api/payment/transactions:
+    get:
+      summary: Get recent transactions
+      responses:
+        '200':
+          description: List of transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+
+components:
+  schemas:
+    PaymentConfig:
+      type: object
+      properties:
+        failureRate:
+          type: number
+          description: Percentage of transactions that should fail (0.0 to 1.0)
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        orderId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+        status:
+          type: string
+          enum: [SUCCESS, FAILED]
