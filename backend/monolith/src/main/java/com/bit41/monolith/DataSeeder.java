@@ -1,7 +1,9 @@
 package com.bit41.monolith;
 
 import com.bit41.monolith.model.Product;
+import com.bit41.monolith.model.Stock;
 import com.bit41.monolith.repository.ProductRepository;
+import com.bit41.monolith.repository.StockRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class DataSeeder implements CommandLineRunner {
@@ -16,14 +19,17 @@ public class DataSeeder implements CommandLineRunner {
     private static final Logger log = LoggerFactory.getLogger(DataSeeder.class);
 
     private final ProductRepository productRepository;
+    private final StockRepository stockRepository;
 
-    public DataSeeder(ProductRepository productRepository) {
+    public DataSeeder(ProductRepository productRepository, StockRepository stockRepository) {
         this.productRepository = productRepository;
+        this.stockRepository = stockRepository;
     }
 
     @Override
     public void run(String... args) {
         productRepository.deleteAll();
+        stockRepository.deleteAll();
         log.info("Seeding Nexbyte product catalogue with images...");
 
         List<Product> products = List.of(
@@ -95,7 +101,17 @@ public class DataSeeder implements CommandLineRunner {
         );
 
         productRepository.saveAll(products);
-        log.info("Seeded {} Nexbyte products.", products.size());
+        
+        List<Stock> stocks = products.stream().map(p -> {
+            Stock s = new Stock();
+            s.setProductId(p.getId());
+            s.setAvailableQuantity(100);
+            s.setReservedQuantity(0);
+            return s;
+        }).collect(Collectors.toList());
+        stockRepository.saveAll(stocks);
+        
+        log.info("Seeded {} Nexbyte products and inventory.", products.size());
     }
 
     private Product make(String sku, String name, String desc, String category, BigDecimal price, String imageUrl) {
