@@ -7,24 +7,8 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     proxy: {
-      '/api/products': {
-        target: 'http://localhost:8081',
-        changeOrigin: true
-      },
-      '/api/inventory': {
-        target: 'http://localhost:8082',
-        changeOrigin: true
-      },
-      '/api/orders': {
-        target: 'http://localhost:8083',
-        changeOrigin: true
-      },
-      '/api/payment': {
-        target: 'http://localhost:8084',
-        changeOrigin: true
-      },
-      '/api/notifications': {
-        target: 'http://localhost:8085',
+      '/api': {
+        target: 'http://localhost:8080',
         changeOrigin: true
       }
     }
