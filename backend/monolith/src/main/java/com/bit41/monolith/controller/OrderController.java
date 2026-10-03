@@ -5,6 +5,7 @@ import com.bit41.monolith.service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,14 +24,20 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Order> createOrder(
             @Valid @RequestBody Order order,
-            @RequestHeader(value = "X-User-Role", required = false) String role,
-            @RequestHeader(value = "X-User-Id", required = false) UUID userId) {
+            Authentication authentication) {
+        
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        
+        String role = authentication.getAuthorities().iterator().next().getAuthority();
+        UUID userId = UUID.fromString((String) authentication.getPrincipal());
         
         if (!"CUSTOMER".equals(role) && !"ADMIN".equals(role)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         
-        if ("CUSTOMER".equals(role) && userId != null) {
+        if ("CUSTOMER".equals(role)) {
             order.setCustomerId(userId);
         }
         
@@ -42,17 +49,19 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Order>> getOrders(
-            @RequestHeader(value = "X-User-Role", required = false) String role,
-            @RequestHeader(value = "X-User-Id", required = false) UUID userId) {
+    public ResponseEntity<List<Order>> getOrders(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        
+        String role = authentication.getAuthorities().iterator().next().getAuthority();
+        UUID userId = UUID.fromString((String) authentication.getPrincipal());
         
         if ("ADMIN".equals(role)) {
             return ResponseEntity.ok(orderService.getAllOrders());
-        } else if ("CUSTOMER".equals(role) && userId != null) {
+        } else if ("CUSTOMER".equals(role)) {
             return ResponseEntity.ok(orderService.getOrdersByCustomerId(userId));
         }
-        // Fallback for no auth if needed, but we should strictly block if headers present
-        // Actually, let's enforce role.
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
