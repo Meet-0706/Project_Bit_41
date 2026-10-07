@@ -6,7 +6,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import StripeCheckout from './StripeCheckout';
 
-const stripePromise = loadStripe('pk_test_51UKOQ1Eu333DEidjl3rCJWG3Y6pD8YCtxC7w1ncXcf18p4vtJmbCFohzLUaGS3OpJCQFZxUIBZTZZHZcG4sIodLy00QCKZ5pm9');
+const stripePromise = loadStripe('pk_test_51UO1nlREg117qM2JBv2WgvJTcoYTBEtNcsjcwRmvlMFGZ21G64o7bnYVoLfypdZRNR8LwWdue5Cwyvbemm7xMOF900oEfhm1TG');
 
 
 const CATEGORIES = ["All", "Audio", "Wearables", "Power", "Cameras", "Accessories", "Home"];
