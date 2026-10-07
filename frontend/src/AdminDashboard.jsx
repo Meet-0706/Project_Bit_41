@@ -46,7 +46,7 @@ const AdminDashboard = () => {
       <header className="mb-8 flex justify-between items-center">
         <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
           <Activity className="text-blue-600" />
-          Event-Driven Saga Dashboard (Admin)
+          Store Management & Admin Dashboard
         </h1>
         <div className="flex gap-4 items-center">
           <div className="bg-white p-2 rounded shadow flex items-center gap-2">

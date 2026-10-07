@@ -186,7 +186,7 @@ const Storefront = () => {
 
             <section className="delivery-strip">
               <span>🚚 Free delivery on orders above ₹499</span>
-              <span>⚡ Orders auto-shipped via Shiprocket</span>
+              <span>⚡ Fast dispatch within 24 hours</span>
               <span>↩️ 7-day easy returns</span>
             </section>
 
@@ -272,11 +272,11 @@ const Storefront = () => {
             <span>Returns</span>
           </div>
           <div>
-            <h4>FULFILLMENT</h4>
-            <span>Auto-connected to Shiprocket</span>
+            <h4>SUPPORT</h4>
+            <span>24/7 Dedicated Support</span>
           </div>
         </div>
-        <div className="wrap footer-bottom">© Nexbyte — Event-Driven Commerce Fulfilment Platform</div>
+        <div className="wrap footer-bottom">© Nexbyte — Modern E-Commerce Platform</div>
       </footer>
 
       {/* Cart Drawer */}
@@ -374,7 +374,7 @@ const Storefront = () => {
                 <dt>Status</dt><dd>{orderConfirmed.status}</dd>
                 <dt>Shipment ID</dt><dd>{orderConfirmed.shipmentId}</dd>
               </dl>
-              <p className="confirmation-note">Simulated — auto-shipped via saga orchestration.</p>
+              <p className="confirmation-note">Order confirmed and packed for delivery.</p>
               <button className="btn btn-secondary btn-full" onClick={() => { setIsCheckoutOpen(false); setOrderConfirmed(null); }}>
                 Continue Shopping
               </button>
