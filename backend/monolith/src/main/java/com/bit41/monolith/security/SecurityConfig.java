@@ -24,6 +24,8 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/products/**").permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/inventory/**").permitAll()
                 .requestMatchers("/api/payment/config/**").hasAuthority("ADMIN")
                 .requestMatchers(req -> req.getServletPath().startsWith("/api/inventory") && !req.getMethod().equals("GET")).hasAuthority("ADMIN")
                 .anyRequest().authenticated()
