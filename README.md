@@ -23,10 +23,7 @@ The easiest way to run the entire stack is via Docker Compose. Ensure you have D
 docker-compose up -d --build
 ```
 
-Once all containers are healthy:
-- **Admin Dashboard UI:** http://localhost
-- **RabbitMQ Management:** http://localhost:15672 (guest/guest)
-- **Order Service Swagger UI:** http://localhost:8083/swagger-ui.html
+
 
 ## Key Features
 - **Saga Choreography:** Decentralized workflow without a single orchestrator bottleneck.
